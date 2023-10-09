@@ -312,26 +312,13 @@ class HuffmanCodec(PrefixCodec):
 #-------------------- author: RPP, 2020.09.11
 def main():
     #codec = HuffmanCodec.from_data('hello world how are you doing today foo bar lorem ipsum')
-    # codec = HuffmanCodec.from_data([101, 102, 101, 102, 101, 102, 101, 100, 100, 104])
-    # t = codec.get_code_table()
-    # print(t)
-    # s, l = codec.get_code_len()
-    # print(s)
-    # print(l)
-    data = pd.read_excel("C:\\Users\\gugaa\\Desktop\\TI\\"+'CarDataset.xlsx')
-    #matrix with all the data
-    matrix = data.values
-    print(matrix)
-    #list with the names of the variables in the table
-    varNames=data.columns.values.tolist()
-    #represent 6 graphs with the G column as the y axis and the other variables as the x axis
-    for i in range(0,6):
-        for j in range(0,6):
-            if i!=j:
-                print(varNames[i],varNames[j])
-                #create a new figure
-                
-    
+    codec = HuffmanCodec.from_data([101, 102, 101, 102, 101, 102, 101, 100, 100, 104])
+    t = codec.get_code_table()
+    print(t)
+    s, l = codec.get_code_len()
+    print(s)
+    print(l)  
+
     
 if __name__ == "__main__":
     main()
