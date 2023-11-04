@@ -136,19 +136,27 @@ def ex7(val,prints=True):
         print("Valor medio teorico: ", lim)
     return lim
 
-def ex8(size, val, prints=True):
+def ex8(size, val, prints=True): #não sei se está bem
     freq = np.zeros(65536, dtype=np.uint16)
     for i in np.nditer(val):
         freq[i] += 1
     prob = freq / size
     prob = prob[prob > 0]
     codec = huffmancodec.HuffmanCodec.from_data(val)
-    symbols, lengths = codec.get_code_lengths()
-    media = np.sum(prob * codec.get_code_len()[1])
-    var = np.sum(prob * ((codec.get_code_len()[1] - lengths) ** 2))
+    symbols, lengths = codec.get_code_len()
+    media = np.sum(prob * lengths)
+    var = np.sum(prob * np.power(lengths - media, 2))
     if prints:
         print("Valor medio dos bits: ", media)
         print("Variancia: ", var)
+
+def ex9(varNames,matrix):
+    # Calcular os coeficientes de correlação de Pearson entre a variável MPG e as restantes variáveis. 
+    # Utilize a função corrcoef do Numpy.
+    for i in range(0,7):
+        print("Correlação entre MPG e ",varNames[i],": ",np.corrcoef(matrix[:,6],matrix[:,i])[0,1])
+
+    
 
 def main():
     matrix, varNames = ex1("CarDataset.xlsx")
@@ -157,8 +165,9 @@ def main():
     #freq = ex4(matrix)
     #ex5(varNames,matrix)
     #ex6(matrix)
-    #matrix to 1d array
     #ex7(matrix.flatten())
+    for i in range(0,7):
+        ex8(matrix[:,i].size,matrix[:,i])
     
 
 if __name__ == "__main__":
