@@ -161,18 +161,39 @@ def ex11(matrix, prints=False):
         print(mpg)
 
 def main():
+    print("\n---EX1---")
     matrix, names = ex1("CarDataset.xlsx")
+
+    print("---EX2---")
     ex2(matrix, names)
+
+    print("---EX3---")
     _, matrix = ex3(matrix)
+
+    print("---EX4---")
     ex4(matrix)
+
+    print("---EX5---")
     ex5(names, matrix)
+
+    print("---EX6---")
     ex6(matrix)
+
+    print("---EX7---")
     ex7(matrix.flatten())
+
+    print("---EX8---")
     for i in range(0,7):
         ex8(matrix[:,i].size, matrix[:,i])
         continue
+
+    print("---EX9---")
     ex9(names, matrix)
+
+    print("---EX10---")
     ex10(names, matrix)
+
+    print("---EX11---")
     ex11(matrix, True)
 
 if __name__ == "__main__":
