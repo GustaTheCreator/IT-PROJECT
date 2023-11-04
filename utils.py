@@ -23,8 +23,8 @@ def min_join_entropy(val1, val2):
 
     return joint_entropy
 
-def frequency(val, alfabeto):
-    freq = np.zeros(alfabeto, dtype=np.uint16)
+def frequency(val, alphabet):
+    freq = np.zeros(alphabet, dtype=np.uint16)
     for i in np.nditer(val):
         freq[i] += 1
     return freq
