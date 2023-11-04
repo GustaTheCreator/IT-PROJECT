@@ -15,7 +15,7 @@ def ex1(excel,prints=False):
     if prints:
         print(varNames)
     return matrix, varNames
-    
+
 def ex2(matrix, varNames):
     #represent 6 graphs with the first 6 variables as x and the last one is always the y for every graph
     #in a 3x2 grid
@@ -31,7 +31,7 @@ def ex2(matrix, varNames):
         axs[i//2,i%2].set_ylabel(varNames[6])
     fig.tight_layout()
     plt.show()
-    
+
 def ex3(matrix,prints=False):
     #convert matrix values to uint16
     matrix = matrix.astype(np.uint16)
@@ -40,7 +40,7 @@ def ex3(matrix,prints=False):
     #define an alphabet for the uint16
     alphabet = np.zeros(65536, dtype=np.uint16)
     return alphabet, matrix
-    
+
 
 def ex4(matrix):
     #for every value in the matrix, increment the value in the alphabet
@@ -48,7 +48,7 @@ def ex4(matrix):
     for i in range(0,7):
         freq[i] = frequencia(matrix[:,i],65536)
     return freq
-            
+
 
 def ex5(varNames,values):
     #Implementar uma função que permita representar um gráfico de barras mediante o resultado obtido no ponto anterior
@@ -62,16 +62,16 @@ def ex5(varNames,values):
         freq[i] = freq[i][freq[i]>0]
         plt.bar(np.arange(freq[i].size), freq[i], color='red')
         plt.show()
-    
+
 def ex6(values):
     #Fazer agrupamento de símbolos (binning) para as variáveis Weight, Displacement e Horsepower.
     #Na fonte, símbolos dentro de um intervalo predefinido, deverão assumir todos o mesmo valor.
-    #A escolha do símbolo mais representativo para cada intervalo, e que irá substituir todos os elementos do intervalo, deverá ser aquele com maior número de ocorrências. 
+    #A escolha do símbolo mais representativo para cada intervalo, e que irá substituir todos os elementos do intervalo, deverá ser aquele com maior número de ocorrências.
     #Para a variável Weight, deve considerar o agrupamento de 40 símbolos consecutivos, começando pelo primeiro elemento do alfabeto. Este parâmetro deverá ser inserido como variável de entrada da função.
     #Para as variáveis Displacement e Horsepower deverá considerar um agrupamento de 5 símbolos consecutivos, começando pelo primeiro elemento do alfabeto
     #Uma vez feita a substituição, deverá repetir os pontos 4 e 5, para estas três variáveis.
     #Acceleration	Cylinders	Displacement	Horsepower	ModelYear	Weight	MPG
-    
+
     #Weight
     weight = binning(values[:,5],40)
 
@@ -108,7 +108,7 @@ def binning(values,window):
         window_values = values[i:i+window]
         window_freq = freq[window_values]
         most_freq = np.argmax(window_freq)
-        new_values[i:i+window] = most_freq     
+        new_values[i:i+window] = most_freq
     return new_values
 
 def plotvalues(title,values):
@@ -122,7 +122,7 @@ def plotvalues(title,values):
 def ex7(val,prints=True):
     size = int(np.sum(val))                                                    # o tamanho corresponde à soma dos elementos de val
     if size == 0:
-        size = 1                                               
+        size = 1
     prob = val / size                                                          # probabilidade -> freqência dividida pela soma dos números de dados
     prob=prob[prob>0]
     lim = - np.sum(prob * np.log2(prob))                                     # H(x) = - soma de [p(i) * log2(1/p(i))]
@@ -143,13 +143,13 @@ def ex8(size, val, prints=True): #não sei se está bem
         print("Variancia: ", var)
 
 def ex9(varNames,matrix):
-    # Calcular os coeficientes de correlação de Pearson entre a variável MPG e as restantes variáveis. 
+    # Calcular os coeficientes de correlação de Pearson entre a variável MPG e as restantes variáveis.
     # Utilize a função corrcoef do Numpy.
     for i in range(0,7):
         print("Correlação entre MPG e ",varNames[i],": ",np.corrcoef(matrix[:,6],matrix[:,i])[0,1])
 
 def ex10(varNames,matrix):
-    # Implemente uma função que permita o cálculo da informação mútua (MI) entre a variável MPG e as restantes variáveis. 
+    # Implemente uma função que permita o cálculo da informação mútua (MI) entre a variável MPG e as restantes variáveis.
     # a. Para as variáveis Weight, Distance e Horsepower considerar os dados após o agrupamento.
 
 
@@ -174,7 +174,7 @@ def LimMinTeoricoConjunto(val1,val2):
     if size == 0:
         size = 1
     joint_prob = {}
-    
+
     for i in range(size):
         pair = (val1[i], val2[i])
         if pair in joint_prob:
@@ -188,7 +188,7 @@ def LimMinTeoricoConjunto(val1,val2):
         joint_entropy += - prob * np.log2(prob)
 
     return joint_entropy
-    
+
 def frequencia(val,alfabeto):
     freq = np.zeros(alfabeto, dtype=np.uint16)
     for i in np.nditer(val):
@@ -196,17 +196,17 @@ def frequencia(val,alfabeto):
     return freq
 
 def ex11(matrix, prints=False):
-    # Os valores de MPG podem ser estimados em função das restantes variáveis, 
-    # utilizando uma relação (simples) como a apresentada a seguir: 
-    
+    # Os valores de MPG podem ser estimados em função das restantes variáveis,
+    # utilizando uma relação (simples) como a apresentada a seguir:
+
     # 𝑀𝑃𝐺𝑝𝑟𝑒𝑑 =−5.5241−0.146∗𝐴𝑐𝑐𝑒𝑙𝑒𝑟𝑎𝑡𝑖𝑜𝑛−0.4909∗𝐶𝑦𝑙𝑖𝑛𝑑𝑒𝑟𝑠
     # +0.0026∗𝐷𝑖𝑠𝑡𝑎𝑛𝑐𝑒−0.0045∗𝐻𝑜𝑟𝑠𝑒𝑝𝑜𝑤𝑒𝑟+0.6725
-    # ∗𝑀𝑜𝑑𝑒𝑙−0.0059∗𝑊𝑒𝑖𝑔ℎ𝑡 
+    # ∗𝑀𝑜𝑑𝑒𝑙−0.0059∗𝑊𝑒𝑖𝑔ℎ𝑡
 
     mpg = -5.5241 - 0.146*matrix[:,0] - 0.4909*matrix[:,1] + 0.0026*matrix[:,2] - 0.0045*matrix[:,3] + 0.6725*matrix[:,4] - 0.0059*matrix[:,5]
     if prints:
         print(mpg)
-    
+
     mpg = -5.5241 - 0.146*matrix[:,0] - 0.4909*matrix[:,1] + 0.0026*matrix[:,2] - 0.0045*matrix[:,3] + 0.6725*matrix[:,4]
     if prints:
         print(mpg)
@@ -226,9 +226,9 @@ def main():
     # for i in range(0,7):
     #     ex8(matrix[:,i].size,matrix[:,i])
     #ex9(varNames,matrix)
-    ex10(varNames,matrix)
+    #ex10(varNames,matrix)
     #ex11(matrix,True)
-    
+
 
 if __name__ == "__main__":
     main()
