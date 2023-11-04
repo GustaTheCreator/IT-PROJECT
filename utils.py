@@ -30,10 +30,9 @@ def frequency(val, alphabet):
     return freq
 
 def binning(values, window):
-
     # Para cada janela de valores, encontrar o valor mais frequente e substituir todos os valores na janela por ele
-    freq = frequency(values,65536)
 
+    freq = frequency(values,65536)
     new_values = np.zeros(values.size, dtype=np.uint16)
 
     for i in range(0,values.size,window):
