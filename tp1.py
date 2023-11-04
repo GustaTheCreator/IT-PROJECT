@@ -9,12 +9,12 @@ def ex1(excel, prints=False):
     matrix = data.values
     if prints:
         print(matrix)
-    varNames=data.columns.values.tolist()
+    names=data.columns.values.tolist()
     if prints:
-        print(varNames)
-    return matrix, varNames
+        print(names)
+    return matrix, names
 
-def ex2(matrix, varNames):
+def ex2(matrix, names):
     # Representar graficamente os valores das variáveis MPG, Acceleration, Cylinders, Displacement, Horsepower e Weight,
 
     fig, axs = plt.subplots(3, 2)
@@ -22,9 +22,9 @@ def ex2(matrix, varNames):
         ex7(matrix[:,i])
         ex8(matrix[:,i].size,matrix[:,i])
         axs[i//2,i%2].scatter(matrix[:,i],matrix[:,6],c='purple')
-        axs[i//2,i%2].set_title(varNames[i]+" vs "+varNames[6])
-        axs[i//2,i%2].set_xlabel(varNames[i])
-        axs[i//2,i%2].set_ylabel(varNames[6])
+        axs[i//2,i%2].set_title(names[i]+" vs "+names[6])
+        axs[i//2,i%2].set_xlabel(names[i])
+        axs[i//2,i%2].set_ylabel(names[6])
     fig.tight_layout()
     plt.show()
 
@@ -115,14 +115,14 @@ def ex8(size, val, prints=True):
         print("Valor medio dos bits: ", media)
         print("Variancia: ", var)
 
-def ex9(varNames,matrix):
+def ex9(names,matrix):
     # Calcular os coeficientes de correlação de Pearson entre a variável MPG e as restantes variáveis.
     # Utilize a função corrcoef do Numpy.
 
     for i in range(0,7):
-        print("Correlação entre MPG e ",varNames[i],": ",np.corrcoef(matrix[:,6],matrix[:,i])[0,1])
+        print(f"Correlação entre MPG e {names[i]}:", np.corrcoef(matrix[:,6],matrix[:,i])[0,1])
 
-def ex10(varNames,matrix):
+def ex10(names,matrix):
     # Implemente uma função que permita o cálculo da informação mútua (MI) entre a variável MPG e as restantes variáveis.
 
     #MPG
@@ -138,7 +138,7 @@ def ex10(varNames,matrix):
             freq = frequency(matrix[:,i],65536)
         infox = ex7(freq,False)
         infoxy = min_join_entropy(matrix[:,i],matrix[:,6])
-        print("Informação mútua entre MPG e ",varNames[i],": ",infox+infompg-infoxy)
+        print(f"Informação mútua entre MPG e {names[i]}:",infox+infompg-infoxy)
 
 def ex11(matrix, prints=False):
     # Os valores de MPG podem ser estimados em função das restantes variáveis,
