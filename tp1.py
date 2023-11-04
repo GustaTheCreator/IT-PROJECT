@@ -115,14 +115,14 @@ def ex8(size, val, prints=True):
         print("Valor medio dos bits: ", media)
         print("Variancia: ", var)
 
-def ex9(names,matrix):
+def ex9(names, matrix):
     # Calcular os coeficientes de correlação de Pearson entre a variável MPG e as restantes variáveis.
     # Utilize a função corrcoef do Numpy.
 
     for i in range(0,7):
         print(f"Correlação entre MPG e {names[i]}:", np.corrcoef(matrix[:,6],matrix[:,i])[0,1])
 
-def ex10(names,matrix):
+def ex10(names, matrix):
     # Implemente uma função que permita o cálculo da informação mútua (MI) entre a variável MPG e as restantes variáveis.
 
     #MPG
