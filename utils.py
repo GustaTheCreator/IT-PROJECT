@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import huffmancodec
 
-def min_join_entropy(val1,val2):
+def min_join_entropy(val1, val2):
     size = len(val1)
     if size == 0:
         size = 1
@@ -23,13 +23,13 @@ def min_join_entropy(val1,val2):
 
     return joint_entropy
 
-def frequency(val,alfabeto):
+def frequency(val, alfabeto):
     freq = np.zeros(alfabeto, dtype=np.uint16)
     for i in np.nditer(val):
         freq[i] += 1
     return freq
 
-def binning(values,window):
+def binning(values, window):
 
     # For every window of values, find the most frequent value and replace all the values in the window with it
     # example: window number is 3, window of values is [0,1,2]
@@ -50,7 +50,7 @@ def binning(values,window):
         new_values[i:i+window] = most_freq
     return new_values
 
-def plot_values(title,values):
+def plot_values(title, values):
     plt.xlabel(title)
     plt.ylabel("Count")
     freq = frequency(values,65536)
