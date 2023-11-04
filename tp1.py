@@ -46,9 +46,7 @@ def ex4(matrix):
     #for every value in the matrix, increment the value in the alphabet
     freq = np.zeros(7, dtype=np.ndarray)
     for i in range(0,7):
-        freq[i] = np.zeros(65536, dtype=np.uint16)
-        for j in np.nditer(matrix[:,i]):
-            freq[i][j] += 1
+        freq[i] = frequencia(matrix[:,i],65536)
     return freq
             
 
@@ -102,9 +100,7 @@ def binning(values,window):
     # result is [1,1,4,1,1]
     # if window number is 40, window of values is [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14, ... , 39]
 
-    freq = np.zeros(65536, dtype=np.uint16)
-    for i in np.nditer(values):
-        freq[i] += 1
+    freq = frequencia(values,65536)
 
     new_values = np.zeros(values.size, dtype=np.uint16)
 
@@ -118,9 +114,7 @@ def binning(values,window):
 def plotvalues(title,values):
     plt.xlabel(title)
     plt.ylabel("Count")
-    freq = np.zeros(65536, dtype=np.uint16)
-    for i in np.nditer(values):
-        freq[i] += 1
+    freq = frequencia(values,65536)
     freq = freq[freq>0]
     plt.bar(np.arange(freq.size), freq, color='red')
     plt.show()
@@ -137,9 +131,7 @@ def ex7(val,prints=True):
     return lim
 
 def ex8(size, val, prints=True): #não sei se está bem
-    freq = np.zeros(65536, dtype=np.uint16)
-    for i in np.nditer(val):
-        freq[i] += 1
+    freq =frequencia(val,65536)
     prob = freq / size
     prob = prob[prob > 0]
     codec = huffmancodec.HuffmanCodec.from_data(val)
@@ -156,7 +148,72 @@ def ex9(varNames,matrix):
     for i in range(0,7):
         print("Correlação entre MPG e ",varNames[i],": ",np.corrcoef(matrix[:,6],matrix[:,i])[0,1])
 
+def ex10(varNames,matrix):
+    # Implemente uma função que permita o cálculo da informação mútua (MI) entre a variável MPG e as restantes variáveis. 
+    # a. Para as variáveis Weight, Distance e Horsepower considerar os dados após o agrupamento.
+
+
+    #MPG
+    freq_mpg = frequencia(matrix[:,6],65536)
+    infompg = ex7(freq_mpg,False)
+
+    for i in range(0,6):
+        if i == 2 or i == 3:
+            freq = frequencia(binning(matrix[:,i],5),65536)
+        elif i == 5:
+            freq = frequencia(binning(matrix[:,i],40),65536)
+        else:
+            freq = frequencia(matrix[:,i],65536)
+        infox = ex7(freq,False)
+        infoxy = LimMinTeoricoConjunto(matrix[:,i],matrix[:,6])
+        #MI = H(x) + H(y) - H(x,y)
+        print("Informação mútua entre MPG e ",varNames[i],": ",infox+infompg-infoxy)
+
+def LimMinTeoricoConjunto(val1,val2):
+    size = len(val1)
+    if size == 0:
+        size = 1
+    joint_prob = {}
     
+    for i in range(size):
+        pair = (val1[i], val2[i])
+        if pair in joint_prob:
+            joint_prob[pair] += 1
+        else:
+            joint_prob[pair] = 1
+
+    joint_entropy = 0
+    for count in joint_prob.values():
+        prob = count / size
+        joint_entropy += - prob * np.log2(prob)
+
+    return joint_entropy
+    
+def frequencia(val,alfabeto):
+    freq = np.zeros(alfabeto, dtype=np.uint16)
+    for i in np.nditer(val):
+        freq[i] += 1
+    return freq
+
+def ex11(matrix, prints=False):
+    # Os valores de MPG podem ser estimados em função das restantes variáveis, 
+    # utilizando uma relação (simples) como a apresentada a seguir: 
+    
+    # 𝑀𝑃𝐺𝑝𝑟𝑒𝑑 =−5.5241−0.146∗𝐴𝑐𝑐𝑒𝑙𝑒𝑟𝑎𝑡𝑖𝑜𝑛−0.4909∗𝐶𝑦𝑙𝑖𝑛𝑑𝑒𝑟𝑠
+    # +0.0026∗𝐷𝑖𝑠𝑡𝑎𝑛𝑐𝑒−0.0045∗𝐻𝑜𝑟𝑠𝑒𝑝𝑜𝑤𝑒𝑟+0.6725
+    # ∗𝑀𝑜𝑑𝑒𝑙−0.0059∗𝑊𝑒𝑖𝑔ℎ𝑡 
+
+    mpg = -5.5241 - 0.146*matrix[:,0] - 0.4909*matrix[:,1] + 0.0026*matrix[:,2] - 0.0045*matrix[:,3] + 0.6725*matrix[:,4] - 0.0059*matrix[:,5]
+    if prints:
+        print(mpg)
+    
+    mpg = -5.5241 - 0.146*matrix[:,0] - 0.4909*matrix[:,1] + 0.0026*matrix[:,2] - 0.0045*matrix[:,3] + 0.6725*matrix[:,4]
+    if prints:
+        print(mpg)
+
+    mpg = -5.5241 - 0.146*matrix[:,0] - 0.4909*matrix[:,1] + 0.0026*matrix[:,2] - 0.0045*matrix[:,3] - 0.0059*matrix[:,5]
+    if prints:
+        print(mpg)
 
 def main():
     matrix, varNames = ex1("CarDataset.xlsx")
@@ -166,8 +223,11 @@ def main():
     #ex5(varNames,matrix)
     #ex6(matrix)
     #ex7(matrix.flatten())
-    for i in range(0,7):
-        ex8(matrix[:,i].size,matrix[:,i])
+    # for i in range(0,7):
+    #     ex8(matrix[:,i].size,matrix[:,i])
+    #ex9(varNames,matrix)
+    ex10(varNames,matrix)
+    #ex11(matrix,True)
     
 
 if __name__ == "__main__":
