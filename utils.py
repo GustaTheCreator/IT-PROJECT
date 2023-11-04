@@ -31,14 +31,7 @@ def frequency(val, alfabeto):
 
 def binning(values, window):
 
-    # For every window of values, find the most frequent value and replace all the values in the window with it
-    # example: window number is 3, window of values is [0,1,2]
-    # values are [1,0,4,2,1]
-    # most frequent value is 1
-    # replace all the [0,1,2] to 1
-    # result is [1,1,4,1,1]
-    # if window number is 40, window of values is [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14, ... , 39]
-
+    # Para cada janela de valores, encontrar o valor mais frequente e substituir todos os valores na janela por ele
     freq = frequency(values,65536)
 
     new_values = np.zeros(values.size, dtype=np.uint16)
